@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { forwardRef, useState, type ReactNode } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState, type ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
 import { colors, fonts, radius } from '@/theme';
@@ -15,13 +15,18 @@ export const TextField = forwardRef<TextInput, Props>(function TextField(
   { error, password, leftIcon, style, onFocus, onBlur, ...rest },
   ref,
 ) {
+  const inputRef = useRef<TextInput>(null);
+  useImperativeHandle(ref, () => inputRef.current as TextInput);
   const [focused, setFocused] = useState(false);
   const [hidden, setHidden] = useState(true);
   const hasValue = Boolean(rest.value);
 
   return (
     <View>
-      <View
+      {/* The whole box (padding, icon) focuses the input, not only the text line. */}
+      <Pressable
+        accessible={false}
+        onPress={() => inputRef.current?.focus()}
         style={[
           styles.box,
           (focused || hasValue) && styles.active,
@@ -31,7 +36,7 @@ export const TextField = forwardRef<TextInput, Props>(function TextField(
       >
         {leftIcon}
         <TextInput
-          ref={ref}
+          ref={inputRef}
           placeholderTextColor={colors.textMuted}
           selectionColor={colors.primary}
           cursorColor={colors.primaryBright}
@@ -58,7 +63,7 @@ export const TextField = forwardRef<TextInput, Props>(function TextField(
             <Feather name={hidden ? 'eye' : 'eye-off'} size={16} color={colors.textSecondary} />
           </Pressable>
         )}
-      </View>
+      </Pressable>
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
@@ -85,6 +90,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
   },
   error: { borderColor: colors.danger, shadowOpacity: 0 },
-  input: { flex: 1, color: colors.text, fontFamily: fonts.regular, fontSize: 14, paddingVertical: 0 },
+  // Stretch to the full 48px box so a tap anywhere in the field focuses it, not just on the text line.
+  input: {
+    flex: 1,
+    alignSelf: 'stretch',
+    textAlignVertical: 'center',
+    color: colors.text,
+    fontFamily: fonts.regular,
+    fontSize: 14,
+    paddingVertical: 0,
+  },
   errorText: { color: colors.danger, fontFamily: fonts.regular, fontSize: 12, marginTop: 6, marginLeft: 2 },
 });

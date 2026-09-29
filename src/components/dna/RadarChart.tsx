@@ -35,7 +35,8 @@ export function RadarChart({ scores, size = 180 }: Props) {
           return <Circle key={t} cx={x} cy={y} r={2.2} fill={colors.primaryBright} />;
         })}
         {TRAITS.map((t, i) => {
-          const [x, y] = point(i, 1.28);
+          // Centered on the axis tip so side labels ("Courage", "Empathy") stay inside the SVG.
+          const [x, y] = point(i, 1.36);
           return (
             <SvgText
               key={t}
@@ -44,7 +45,7 @@ export function RadarChart({ scores, size = 180 }: Props) {
               fontSize={8.5}
               fontFamily={fonts.medium}
               fill={colors.textSecondary}
-              textAnchor={Math.abs(x - c) < 4 ? 'middle' : x > c ? 'start' : 'end'}
+              textAnchor="middle"
             >
               {traitLabels[t]}
             </SvgText>
