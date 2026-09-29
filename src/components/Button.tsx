@@ -17,8 +17,8 @@ type Props = {
 };
 
 /**
- * - primary: solid cyan ("Back to Sign in", "Send Reset Link"); disabled = dark teal
- * - glow: dark with cyan outline ("Continue with Email", "Sign In", "Start")
+ * - primary: solid cyan; disabled = dark teal
+ * - glow: dark with cyan outline ("Continue with Email", "Sign In", "Start", "Send Reset Link", "Back to Sign in")
  * - secondary: dark surface ("Continue with Apple / Google")
  */
 export function Button({ title, onPress, variant = 'primary', disabled, loading, icon, style, compact }: Props) {

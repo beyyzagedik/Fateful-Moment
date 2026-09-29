@@ -11,7 +11,6 @@ export default function CheckEmail() {
 
   return (
     <AuthScreen
-      gradient
       centered
       title="Check Your Email"
       hero={
@@ -25,7 +24,7 @@ export default function CheckEmail() {
         </Text>
       }
     >
-      <Button title="Back to Sign in" onPress={() => router.replace('/sign-in')} />
+      <Button variant="glow" title="Back to Sign in" onPress={() => router.replace('/sign-in')} />
     </AuthScreen>
   );
 }

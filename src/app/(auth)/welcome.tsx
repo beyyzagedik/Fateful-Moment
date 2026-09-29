@@ -19,10 +19,9 @@ export default function Welcome() {
 
   return (
     <AuthScreen
-      gradient
       centered
       title="Welcome to Fateful Moment"
-      subtitle="Step into history. Discover your decision DNA."
+      subtitle="Sign in to continue your journey"
       footer={
         <Text style={styles.legal}>
           By continuing, you agree to our <Text style={styles.link}>Terms of Use</Text> and{' '}

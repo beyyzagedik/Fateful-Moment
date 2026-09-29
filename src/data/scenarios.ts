@@ -321,5 +321,3 @@ function comingSoon(id: string, categoryId: string, title: string, year: number)
 }
 
 export const getScenario = (id: string) => scenarios.find((s) => s.id === id);
-export const scenariosByCategory = (categoryId: string) =>
-  scenarios.filter((s) => s.categoryId === categoryId);

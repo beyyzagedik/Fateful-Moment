@@ -4,7 +4,8 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { tracks, useMiniPlayer } from '@/store/player';
 import { colors, fonts } from '@/theme';
 
-export function MiniPlayer() {
+/** The list icon on the right opens the side menu (Figma "Container" 1595:186). */
+export function MiniPlayer({ onMenu }: { onMenu?: () => void }) {
   const { playing, index, toggle, next, prev } = useMiniPlayer();
 
   return (
@@ -24,7 +25,9 @@ export function MiniPlayer() {
           {tracks[index].toUpperCase()}
         </Text>
       </View>
-      <Feather name="list" size={14} color={colors.textSecondary} />
+      <Pressable hitSlop={10} onPress={onMenu} accessibilityRole="button" accessibilityLabel="Open menu">
+        <Feather name="list" size={14} color={colors.textSecondary} />
+      </Pressable>
     </View>
   );
 }
@@ -33,14 +36,17 @@ const styles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
-    height: 38,
-    paddingLeft: 14,
-    paddingRight: 16,
-    borderRadius: 19,
-    backgroundColor: colors.surface,
+    gap: 16,
+    height: 48,
+    paddingLeft: 17,
+    paddingRight: 17,
+    // Figma MusicPlayer: docked to the right edge, rounded on the left only.
+    borderTopLeftRadius: 999,
+    borderBottomLeftRadius: 999,
+    backgroundColor: 'rgba(15,23,43,0.8)',
     borderWidth: 1,
-    borderColor: colors.border,
+    borderRightWidth: 0,
+    borderColor: 'rgba(49,65,88,0.5)',
   },
   play: {
     width: 26,

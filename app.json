@@ -7,7 +7,7 @@
     "orientation": "default",
     "icon": "./assets/icon-fateful.png",
     "userInterfaceStyle": "dark",
-    "backgroundColor": "#050A1C",
+    "backgroundColor": "#020618",
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true,
@@ -16,7 +16,7 @@
     "android": {
       "package": "com.fatefulmoment.app",
       "adaptiveIcon": {
-        "backgroundColor": "#050A1C",
+        "backgroundColor": "#020618",
         "foregroundImage": "./assets/adaptive-icon.png"
       },
       "predictiveBackGestureEnabled": false

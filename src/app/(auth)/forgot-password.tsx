@@ -31,8 +31,7 @@ export default function ForgotPassword() {
   return (
     <AuthScreen
       showBack
-      gradient
-      title="Reset Password"
+      title="Reset your password"
       subtitle="Enter your email to receive a reset link"
       footer={
         <Text style={styles.legal}>
@@ -56,7 +55,7 @@ export default function ForgotPassword() {
         leftIcon={email ? null : <Feather name="mail" size={14} color={colors.textMuted} />}
         error={error}
       />
-      <Button title="Send Reset Link" disabled={!email} loading={loading} onPress={submit} />
+      <Button variant="glow" title="Send Reset Link" disabled={!email} loading={loading} onPress={submit} />
     </AuthScreen>
   );
 }

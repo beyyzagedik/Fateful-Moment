@@ -13,17 +13,6 @@ export type User = {
   password: string;
 };
 
-export type CategoryIcon = 'history' | 'business' | 'crisis' | 'science';
-
-export type Category = {
-  id: string;
-  title: string;
-  icon: CategoryIcon;
-  /** Two gradient stops used when no cover image is bundled. */
-  tint: [string, string];
-  image?: ImageSourcePropType;
-};
-
 /** One visual beat of the intro when no video file is bundled. */
 export type Scene = {
   caption: string;

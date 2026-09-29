@@ -53,7 +53,7 @@ export function ScenarioCard({ scenario, dimmed, completed, onSelect, onStart }:
         <Text style={styles.title} numberOfLines={1}>
           {scenario.title}
         </Text>
-        <Text style={styles.teaser} numberOfLines={3}>
+        <Text style={styles.teaser} numberOfLines={4}>
           {scenario.teaser}
         </Text>
         <View style={styles.actions}>
@@ -70,8 +70,8 @@ export function ScenarioCard({ scenario, dimmed, completed, onSelect, onStart }:
 
 const styles = StyleSheet.create({
   card: {
-    width: 250,
-    height: 200,
+    width: 220,
+    height: 176,
     borderRadius: radius.lg,
     overflow: 'hidden',
     borderWidth: 1,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   badgeText: { fontFamily: fonts.bold, fontSize: 9, color: colors.textOnPrimary },
   title: { fontFamily: fonts.extraBoldItalic, fontSize: 13, color: colors.text, marginTop: 3 },
-  teaser: { fontFamily: fonts.regular, fontSize: 11, lineHeight: 15, color: colors.textSecondary, marginTop: 3 },
-  actions: { alignItems: 'flex-end', marginTop: spacing.sm, minHeight: 36, justifyContent: 'center' },
+  teaser: { fontFamily: fonts.regular, fontSize: 11, lineHeight: 15, color: '#E2E8F0', marginTop: 3 },
+  actions: { alignItems: 'flex-end', marginTop: spacing.xs, minHeight: 32, justifyContent: 'center' },
   soon: { fontFamily: fonts.medium, fontSize: 11, color: colors.textMuted },
 });

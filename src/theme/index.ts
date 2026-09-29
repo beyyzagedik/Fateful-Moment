@@ -3,10 +3,8 @@
 import { Platform } from 'react-native';
 
 export const colors = {
-  background: '#050A1C',
+  background: '#020618', // Figma Style Guide: Background / Slate 950
   backgroundAlt: '#08102A',
-  gradientTop: '#171A45',
-  gradientBottom: '#0E2239',
 
   surface: '#0D1530',
   surfaceRaised: '#111B38',
@@ -32,6 +30,15 @@ export const colors = {
   warning: '#FACC15',
   success: '#22C55E',
 
+  // Figma Playground values
+  navBorder: '#314158',
+  menuText: '#90A1B9',
+  optionFill: 'rgba(15,23,43,0.63)',
+  optionBorder: '#F8FAFC',
+  choiceBadge: '#FFD230',
+  choiceBadgeBorder: '#FFB900',
+  urgency: 'rgba(150, 12, 24, 0.5)',
+
   overlay: 'rgba(3, 7, 20, 0.62)',
   overlayStrong: 'rgba(3, 7, 20, 0.85)',
   glass: 'rgba(10, 18, 42, 0.78)',
@@ -44,6 +51,8 @@ export const fonts = {
   semibold: 'Inter_600SemiBold',
   bold: 'Inter_700Bold',
   extraBoldItalic: 'Inter_800ExtraBold_Italic',
+  black: 'Inter_900Black',
+  blackItalic: 'Inter_900Black_Italic',
   boldItalic: 'Inter_700Bold_Italic',
   italic: 'Inter_400Regular_Italic',
   mono: Platform.select({ ios: 'Menlo', default: 'monospace' }),

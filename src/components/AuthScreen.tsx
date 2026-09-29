@@ -1,5 +1,4 @@
 import { Feather } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -15,17 +14,16 @@ type Props = {
   showLogo?: boolean;
   /** Replaces the logo above the title (e.g. the check badge). */
   hero?: ReactNode;
-  /** Gradient background (welcome / check email) vs flat navy (forms). */
-  gradient?: boolean;
   footer?: ReactNode;
   centered?: boolean;
   children: ReactNode;
 };
 
-export function AuthScreen({ title, subtitle, showBack, showLogo = true, hero, gradient, footer, centered, children }: Props) {
+export function AuthScreen({ title, subtitle, showBack, showLogo = true, hero, footer, centered, children }: Props) {
   const content = (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
-      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      {/* Android is edge-to-edge (the window no longer resizes), so both platforms need padding. */}
+      <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'web' ? undefined : 'padding'}>
         <ScrollView
           contentContainerStyle={[styles.scroll, centered && styles.centered]}
           keyboardShouldPersistTaps="handled"
@@ -54,13 +52,7 @@ export function AuthScreen({ title, subtitle, showBack, showLogo = true, hero, g
     </SafeAreaView>
   );
 
-  return gradient ? (
-    <LinearGradient colors={[colors.gradientTop, colors.gradientBottom]} style={styles.flex}>
-      {content}
-    </LinearGradient>
-  ) : (
-    <View style={[styles.flex, { backgroundColor: colors.background }]}>{content}</View>
-  );
+  return <View style={[styles.flex, { backgroundColor: colors.background }]}>{content}</View>;
 }
 
 const styles = StyleSheet.create({

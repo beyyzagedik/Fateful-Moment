@@ -34,7 +34,7 @@ export default function DnaScreen() {
 
   if (!profile) {
     return (
-      <AppShell title="DNA">
+      <AppShell title="Karar DNAsı">
         <View style={styles.empty}>
           <Feather name="activity" size={28} color={colors.primaryBright} />
           <Text style={styles.emptyTitle}>Your decision DNA is still blank</Text>
@@ -48,7 +48,7 @@ export default function DnaScreen() {
   const { archetype, scores } = profile;
 
   return (
-    <AppShell title="DNA">
+    <AppShell title="Karar DNAsı">
       <ScrollView contentContainerStyle={styles.page} showsVerticalScrollIndicator={false}>
         {freshTitle && (
           <View style={styles.banner}>
@@ -61,7 +61,7 @@ export default function DnaScreen() {
             <Panel style={styles.identity}>
               <Portrait archetype={archetype} size={64} />
               <View style={styles.identityText}>
-                <Text style={styles.code}>{archetype.code}</Text>
+                <Text style={styles.code}>{archetype.nameEn}</Text>
                 <Text style={styles.nameTr}>
                   {archetype.nameTr} · {profile.match}% match
                 </Text>
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
 
   identity: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
   identityText: { flex: 1 },
-  code: { fontFamily: fonts.extraBoldItalic, fontSize: 15, color: colors.text },
+  code: { fontFamily: fonts.blackItalic, fontSize: 18, color: colors.text, textTransform: 'uppercase' },
   nameTr: { fontFamily: fonts.medium, fontSize: 10, color: colors.primaryBright, marginTop: 1 },
   quoteRow: { flexDirection: 'row', gap: 6, marginTop: 6 },
   quoteBar: { width: 2, borderRadius: 1, backgroundColor: colors.primary },

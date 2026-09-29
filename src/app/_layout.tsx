@@ -6,6 +6,8 @@ import {
   Inter_700Bold,
   Inter_700Bold_Italic,
   Inter_800ExtraBold_Italic,
+  Inter_900Black,
+  Inter_900Black_Italic,
   useFonts,
 } from '@expo-google-fonts/inter';
 import { Stack } from 'expo-router';
@@ -28,6 +30,8 @@ export default function RootLayout() {
     Inter_700Bold,
     Inter_700Bold_Italic,
     Inter_800ExtraBold_Italic,
+    Inter_900Black,
+    Inter_900Black_Italic,
   });
   const hydrated = useAuth((s) => s.hydrated);
   const signedIn = useAuth((s) => Boolean(s.user));

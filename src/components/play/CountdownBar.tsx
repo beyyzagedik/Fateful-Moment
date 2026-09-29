@@ -1,20 +1,25 @@
-import { useEffect, useEffectEvent, useState } from 'react';
+import { useEffect, useEffectEvent } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
 import { colors } from '@/theme';
 
 type Props = {
+  /** 1 → 0 over the decision. Owned by the screen so it can tint the background too. */
+  remaining: Animated.Value;
   durationSec: number;
   running: boolean;
   onTimeout: () => void;
 };
 
+/** Opacity curve for "time is running out" visuals: off until the last ~third. */
+export const urgencyOpacity = (remaining: Animated.Value) =>
+  remaining.interpolate({ inputRange: [0, 0.3, 0.36, 1], outputRange: [1, 1, 0, 0] });
+
 /**
- * Shrinking timer bar under the options: yellow while there is time,
- * red in the last third (matches "Unselected / Selected Option" frames).
+ * Full-width timer bar along the bottom (Figma decision frames): the yellow
+ * segment shrinks toward the center and turns red in the last third.
  */
-export function CountdownBar({ durationSec, running, onTimeout }: Props) {
-  const [remaining] = useState(() => new Animated.Value(1));
+export function CountdownBar({ remaining, durationSec, running, onTimeout }: Props) {
   const fireTimeout = useEffectEvent(onTimeout);
 
   useEffect(() => {
@@ -38,19 +43,18 @@ export function CountdownBar({ durationSec, running, onTimeout }: Props) {
     };
   }, [running, durationSec, remaining]);
 
-  const redOpacity = remaining.interpolate({ inputRange: [0, 0.3, 0.36, 1], outputRange: [1, 1, 0, 0] });
-
   return (
     <View style={styles.track} accessibilityRole="progressbar" accessibilityLabel="Time remaining">
+      {/* scaleX shrinks around the center, so the bar closes in from both ends. */}
       <Animated.View style={[styles.fill, { transform: [{ scaleX: remaining }] }]}>
         <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.warning }]} />
-        <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: colors.danger, opacity: redOpacity }]} />
+        <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: colors.danger, opacity: urgencyOpacity(remaining) }]} />
       </Animated.View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  track: { height: 4, borderRadius: 2, backgroundColor: 'rgba(255,255,255,0.14)', overflow: 'hidden' },
+  track: { height: 4, borderRadius: 2, backgroundColor: 'rgba(49,65,88,0.6)', overflow: 'hidden' },
   fill: { ...StyleSheet.absoluteFill, borderRadius: 2, overflow: 'hidden' },
 });
