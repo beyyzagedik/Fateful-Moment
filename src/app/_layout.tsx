@@ -16,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { Toast } from '@/components/Toast';
 import { useAuth } from '@/store/auth';
 import { colors } from '@/theme';
 
@@ -54,7 +55,8 @@ export default function RootLayout() {
           <Stack.Screen name="(app)" />
         </Stack.Protected>
       </Stack>
-
+      {/* Rendered above every screen so the result survives the auth → app switch. */}
+      <Toast />
     </SafeAreaProvider>
   );
 }

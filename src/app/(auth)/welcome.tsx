@@ -6,12 +6,22 @@ import { Animated, StyleSheet, Text, View } from 'react-native';
 import { AuthScreen } from '@/components/AuthScreen';
 import { GoogleIcon } from '@/components/BrandIcons';
 import { Button } from '@/components/Button';
+import { simulateRequest } from '@/lib/network';
 import { useAuth } from '@/store/auth';
+import { toast } from '@/store/toast';
 import { colors, fonts } from '@/theme';
 
 export default function Welcome() {
   const signInWithProvider = useAuth((s) => s.signInWithProvider);
   const [fade] = useState(() => new Animated.Value(0));
+  const [pending, setPending] = useState<'Apple' | 'Google' | null>(null);
+
+  const continueWith = async (provider: 'Apple' | 'Google') => {
+    if (pending) return;
+    setPending(provider);
+    await simulateRequest(signInWithProvider);
+    toast.success(`Signed in with ${provider}`, 'Demo account: John Doe');
+  };
 
   useEffect(() => {
     Animated.timing(fade, { toValue: 1, duration: 600, useNativeDriver: true }).start();
@@ -45,9 +55,18 @@ export default function Welcome() {
           variant="secondary"
           title="Continue with Apple"
           icon={<FontAwesome name="apple" size={16} color={colors.text} />}
-          onPress={signInWithProvider}
+          loading={pending === 'Apple'}
+          disabled={pending !== null}
+          onPress={() => continueWith('Apple')}
         />
-        <Button variant="secondary" title="Continue with Google" icon={<GoogleIcon />} onPress={signInWithProvider} />
+        <Button
+          variant="secondary"
+          title="Continue with Google"
+          icon={<GoogleIcon />}
+          loading={pending === 'Google'}
+          disabled={pending !== null}
+          onPress={() => continueWith('Google')}
+        />
       </Animated.View>
     </AuthScreen>
   );

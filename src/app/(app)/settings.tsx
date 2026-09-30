@@ -5,6 +5,7 @@ import { Button } from '@/components/Button';
 import { Panel } from '@/components/dna/Panel';
 import { useAuth } from '@/store/auth';
 import { useProgress } from '@/store/progress';
+import { toast } from '@/store/toast';
 import { colors, fonts, spacing } from '@/theme';
 
 function confirm(title: string, message: string, onOk: () => void) {
@@ -40,10 +41,24 @@ export default function Settings() {
               compact
               title="Reset my DNA"
               onPress={() =>
-                user && confirm('Reset DNA?', 'All your decisions will be deleted.', () => reset(user.id))
+                user &&
+                confirm('Reset DNA?', 'All your decisions will be deleted.', () => {
+                  reset(user.id);
+                  toast.info('DNA reset', 'Your decision history was cleared.');
+                })
               }
             />
-            <Button variant="glow" compact title="Sign out" onPress={() => confirm('Sign out?', 'You can sign in again anytime.', signOut)} />
+            <Button
+              variant="glow"
+              compact
+              title="Sign out"
+              onPress={() =>
+                confirm('Sign out?', 'You can sign in again anytime.', () => {
+                  signOut();
+                  toast.info('Signed out', 'See you at the next fateful moment.');
+                })
+              }
+            />
           </View>
         </Panel>
       </View>

@@ -1,13 +1,15 @@
 import { Link } from 'expo-router';
 import { useRef, useState } from 'react';
-import { StyleSheet, Text, type TextInput } from 'react-native';
+import { Keyboard, StyleSheet, Text, type TextInput } from 'react-native';
 
 import { AuthScreen } from '@/components/AuthScreen';
 import { Button } from '@/components/Button';
 import { PasswordRules } from '@/components/PasswordRules';
 import { TextField } from '@/components/TextField';
+import { firstName, simulateRequest } from '@/lib/network';
 import { isStrongPassword, isValidEmail, isValidFullName, messages } from '@/lib/validation';
 import { useAuth } from '@/store/auth';
+import { toast } from '@/store/toast';
 import { colors, fonts } from '@/theme';
 
 export default function SignUp() {
@@ -23,13 +25,22 @@ export default function SignUp() {
 
   const nameError = touched.fullName && fullName && !isValidFullName(fullName) ? messages.wrongFullNameFormat : null;
   const emailFormatError = touched.email && email && !isValidEmail(email) ? messages.wrongEmailFormat : null;
+  const [loading, setLoading] = useState(false);
   const canSubmit = isValidFullName(fullName) && isValidEmail(email) && isStrongPassword(password);
 
-  const submit = () => {
-    if (!canSubmit) return;
-    const result = signUp(fullName, email, password);
-    if (!result.ok) setEmailError(result.error);
-    // On success the auth guard in the root layout switches to the app.
+  const submit = async () => {
+    if (!canSubmit || loading) return;
+    Keyboard.dismiss();
+    setLoading(true);
+    const result = await simulateRequest(() => signUp(fullName, email, password));
+    if (result.ok) {
+      // The auth guard switches to the app; the toast stays on top of it.
+      toast.success(`Welcome, ${firstName(fullName)}!`, 'Your account has been created.');
+      return;
+    }
+    setLoading(false);
+    setEmailError(result.error);
+    toast.error('Sign up failed', result.error);
   };
 
   return (
@@ -85,7 +96,7 @@ export default function SignUp() {
         onSubmitEditing={submit}
       />
       {(passwordFocused || password.length > 0) && <PasswordRules value={password} />}
-      <Button variant="glow" title="Sign up" disabled={!canSubmit} onPress={submit} style={styles.cta} />
+      <Button variant="glow" title="Sign up" disabled={!canSubmit} loading={loading} onPress={submit} style={styles.cta} />
     </AuthScreen>
   );
 }
